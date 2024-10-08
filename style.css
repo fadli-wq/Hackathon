@@ -73,9 +73,26 @@ a.sosial {
   border-radius: 3px;
 }
 
+.selengkapnya-link:hover {
+  background-color: #254168;
+  color: white;
+}
+
 .card-img {
   height: 75%;
   width: 75%;
   justify-items: center;
   margin-left: 10%;
+}
+
+.border-green img{
+  border: 2px solid green !important;
+}
+
+.border-green {
+  border: 2px solid green !important;
+}
+
+img {
+  border: 5px solid green;
 }
