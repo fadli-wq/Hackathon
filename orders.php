@@ -11,9 +11,18 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Fetch categories
-$category_query = "SELECT * FROM categories";
-$category_result = $conn->query($category_query);
+// Simulasi user_id yang sedang login (untuk sementara, misalnya user_id 1)
+$user_id = 1; // Ganti sesuai logika login Anda
+
+// Fetch orders for the user
+$order_query = "SELECT orders.*, products.product_name, products.product_image
+                FROM orders
+                JOIN products ON orders.product_id = products.id
+                WHERE orders.user_id = ?";
+$stmt = $conn->prepare($order_query);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$order_result = $stmt->get_result();
 ?>
 
 <!DOCTYPE html>
@@ -21,12 +30,11 @@ $category_result = $conn->query($category_query);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marketplace</title>
+    <title>Your Orders</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="produk.css">
 </head>
 <body>
 
@@ -46,6 +54,9 @@ $category_result = $conn->query($category_query);
                     <a class="nav-link" href="#">Categories</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="#">Orders</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="#">Contact</a>
                 </li>
             </ul>
@@ -55,34 +66,27 @@ $category_result = $conn->query($category_query);
 
 <!-- Main Content -->
 <div class="container my-5">
-    <h1 class="text-center">Welcome to the Marketplace</h1>
+    <h1 class="text-center">Your Orders</h1>
 
-    <!-- Categories and products -->
-    <?php while ($category = $category_result->fetch_assoc()): ?>
-        <h2 class="mt-5"><?php echo $category['category_name']; ?></h2>
-        
+    <?php if ($order_result->num_rows > 0): ?>
         <div class="row row-cols-1 row-cols-md-3 g-4">
-            <?php
-            // Fetch products for the category
-            $product_query = "SELECT * FROM products WHERE category_id=" . $category['id'];
-            $product_result = $conn->query($product_query);
-
-            while ($product = $product_result->fetch_assoc()):
-            ?>
-            <div class="col">
-                <div class="card h-100 shadow-sm">
-                    <img src="<?php echo 'images/'. $product['product_image']; ?>" alt="<?php echo $product['product_name']; ?>" class="card-img-top" style="height: 200px; object-fit: cover;">
-                    <div class="card-body">
-                        <h5 class="card-title"><?php echo $product['product_name']; ?></h5>
-                        <p class="card-text"><?php echo $product['product_description']; ?></p>
-                        <p class="text-muted">Price: Rp <?php echo number_format($product['product_price']); ?></p>
-                        <a href="buy.php?product_id=<?php echo $product['id']; ?>" class="btn btn-primary">Buy Now</a>
+            <?php while ($order = $order_result->fetch_assoc()): ?>
+                <div class="col">
+                    <div class="card h-100 shadow-sm">
+                        <img src="<?php echo 'images/' . $order['product_image']; ?>" alt="<?php echo $order['product_name']; ?>" class="card-img-top" style="height: 200px; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title"><?php echo $order['product_name']; ?></h5>
+                            <p class="text-muted">Quantity: <?php echo $order['quantity']; ?></p>
+                            <p class="text-muted">Total Price: Rp <?php echo number_format($order['total_price']); ?></p>
+                            <p class="text-muted">Ordered on: <?php echo date('d M Y', strtotime($order['order_date'])); ?></p>
+                        </div>
                     </div>
                 </div>
-            </div>
             <?php endwhile; ?>
         </div>
-    <?php endwhile; ?>
+    <?php else: ?>
+        <p class="text-center">You have no orders yet.</p>
+    <?php endif; ?>
 </div>
 
 <!-- Footer -->
@@ -90,6 +94,12 @@ $category_result = $conn->query($category_query);
     <p>&copy; 2024 Marketplace. All Rights Reserved.</p>
 </footer>
 
+<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
+<?php
+$stmt->close();
+$conn->close();
+?>
