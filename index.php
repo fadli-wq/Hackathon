@@ -1,7 +1,7 @@
 <?php
 // Database connection
 $host = 'localhost';
-$dbname = 'hackathon';
+$dbname = 'marketplace';
 $username = 'root';
 $password = '';
 
