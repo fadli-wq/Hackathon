@@ -15,6 +15,15 @@ CREATE TABLE products (
     FOREIGN KEY (category_id) REFERENCES categories(id)
 );
 
+CREATE TABLE orders (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    product_id INT NOT NULL,
+    user_id INT NOT NULL,
+    quantity INT DEFAULT 1,
+    total_price DECIMAL(10, 2) NOT NULL,
+    order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Insert example categories
 INSERT INTO categories (category_name) VALUES
 ('Sayuran Segar'), 
@@ -26,7 +35,7 @@ INSERT INTO categories (category_name) VALUES
 
 -- Insert example products
 INSERT INTO products (category_id, product_name, product_description, product_image, product_price) VALUES
-(1, 'Bayam Segar', 'Sayur bayam segar dari petani lokal.', 'image1.jpg', 15000),
+(1, 'Bayam Segar', 'Sayur bayam segar dari petani lokal.', 'bayam.jpeg', 15000),
 (1, 'Kangkung', 'Sayur kangkung kaya vitamin.', 'image2.jpg', 12000),
 (2, 'Apel Manis', 'Apel manis dan segar langsung dari kebun.', 'image3.jpg', 20000),
 (2, 'Jeruk Lokal', 'Jeruk segar dengan kandungan vitamin C tinggi.', 'image4.jpg', 18000),
