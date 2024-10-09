@@ -66,7 +66,7 @@ a.sosial {
 
 .selengkapnya-link {
   display: inline-block;
-  background-color: #1f3047;
+  background-color: #dc3545;
   color: #fff;
   padding: 10px 105px;
   text-decoration: none;
@@ -74,7 +74,7 @@ a.sosial {
 }
 
 .selengkapnya-link:hover {
-  background-color: #254168;
+  background-color: #e25b68;
   color: white;
 }
 
