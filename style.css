@@ -66,16 +66,11 @@ a.sosial {
 
 .selengkapnya-link {
   display: inline-block;
-  background-color: #dc3545;
+  background-color: #1f3047;
   color: #fff;
   padding: 10px 105px;
   text-decoration: none;
   border-radius: 3px;
-}
-
-.selengkapnya-link:hover {
-  background-color: #e25b68;
-  color: white;
 }
 
 .card-img {
@@ -83,16 +78,4 @@ a.sosial {
   width: 75%;
   justify-items: center;
   margin-left: 10%;
-}
-
-.border-green img{
-  border: 1px solid black !important;
-}
-
-.border-green {
-  border: 1px solid black !important;
-}
-
-img {
-  border: 1px solid white;
 }
