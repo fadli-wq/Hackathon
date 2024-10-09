@@ -86,13 +86,13 @@ a.sosial {
 }
 
 .border-green img{
-  border: 2px solid green !important;
+  border: 1px solid black !important;
 }
 
 .border-green {
-  border: 2px solid green !important;
+  border: 1px solid black !important;
 }
 
 img {
-  border: 5px solid green;
+  border: 1px solid white;
 }
