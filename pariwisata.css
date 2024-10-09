@@ -1,0 +1,85 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #333;
+  }
+  
+  header {
+    background-color: #4caf50;
+    color: white;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .banner-pariwisata {
+    background: url("pariwisatah.jpg") no-repeat center center;
+    background-size: cover;
+    padding-top: 20%;
+    padding-bottom: 20%;
+    color: #fff;
+  }
+
+  main {
+    padding: 20px;
+    background-color: #3e3e3e;
+  }
+  
+  section {
+    background-color: #333;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid green;
+  }
+  
+  h2 {
+    margin-bottom: 10px;
+    color: #4caf50;
+  }
+  
+  .place-list {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+  }
+  
+  .card {
+    flex: 0 0 30%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: #333;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    color: white;
+  }
+  
+
+  
+  .details {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .map {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+  }
+  
+  footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+  }
