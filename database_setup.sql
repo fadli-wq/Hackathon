@@ -40,3 +40,10 @@ INSERT INTO products (category_id, product_name, product_description, product_im
 (2, 'Apel Manis', 'Apel manis dan segar langsung dari kebun.', 'image3.jpg', 20000),
 (2, 'Jeruk Lokal', 'Jeruk segar dengan kandungan vitamin C tinggi.', 'image4.jpg', 18000),
 (3, 'Jahe Merah', 'Tanaman herbal jahe merah kaya manfaat.', 'image5.jpg', 25000);
+(3, 'Kunyit', 'Tanaman herbal dengan sejuta kesehatan.', 'kunyit.jpg', 8000),
+(4, 'Keripik Singkong', 'Camilan renyah yang terbuat dari irisan tipis singkong.', 'keripik.jpg', 15000),
+(4, 'Bayam Goreng', 'Camilan yang enak dan sehat.', 'bayam_goreng.jpeg', 15000),
+(5, 'Beras', 'Beras khas desa Leuwimalang.', 'beras.jpg', 18000),
+(5, 'Gandum', 'Gandum yang kaya akan karbohidrat.', 'gandum.jpg', 17000);
+(6, 'Kelodan Prima', 'Cemilan satu ini memiliki rasa gurih dan empuk.', 'kelodan.jpeg', 15000),
+(6, 'Kue Gelong', 'Kue kering yang cocok untuk cemilan sehari-sehari.', 'kue_gelong.jpeg', 15000),
