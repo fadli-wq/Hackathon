@@ -1,9 +1,4 @@
 <?php
-session_start();
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit;
-}
 // Database connection
 $host = 'localhost';
 $dbname = 'marketplace';
@@ -16,12 +11,9 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$product_id = $_GET$product['id'];
-
-// Fetch product details
-$product_query = "SELECT * FROM products WHERE id = $product_id";
-$product_result = $conn->query($product_query);
-$product = $product_result->fetch_assoc();
+// Fetch categories
+$category_query = "SELECT * FROM categories";
+$category_result = $conn->query($category_query);
 ?>
 
 <!DOCTYPE html>
@@ -29,12 +21,12 @@ $product = $product_result->fetch_assoc();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buy Product</title>
-    <!-- Bootstrap CSS -->
+    <title>Marketplace</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="produk.css">
 </head>
 <body>
 
@@ -56,6 +48,9 @@ $product = $product_result->fetch_assoc();
                 <li class="nav-item">
                     <a class="nav-link" href="#">Contact</a>
                 </li>
+                <li class="nav-item">
+              <button class="btn btn-success"><a href="login.php" class="text-decoration-none">Login</a></button>
+            </li>
             </ul>
         </div>
     </div>
@@ -63,33 +58,41 @@ $product = $product_result->fetch_assoc();
 
 <!-- Main Content -->
 <div class="container my-5">
-    <div class="row">
-        <div class="col-md-6 offset-md-3">
-            <div class="card">
-                <img src="<?php echo 'images/' . $product['product_image']; ?>" class="card-img-top" alt="<?php echo $product['product_name']; ?>">
-                <div class="card-body">
-                    <h3 class="card-title"><?php echo $product['product_name']; ?></h3>
-                    <p class="card-text">
-                        <?php echo $product['product_description']; ?>
-                    </p>
-                    <h4 class="text-muted">Price: Rp <?php echo number_format($product['product_price']); ?></h4>
+    <h1 class="text-center">Welcome to the Marketplace</h1>
 
-                    <div class="d-grid gap-2">
-                        <a href="checkout.php?product_id=<?php echo $product['id']; ?>" class="btn btn-success btn-lg">Proceed to Checkout</a>
-                        <a href="marketplace.php" class="btn btn-outline-secondary">Continue Shopping</a>
+    <!-- Categories and products -->
+    <?php while ($category = $category_result->fetch_assoc()): ?>
+        <h2 class="mt-5"><?php echo $category['category_name']; ?></h2>
+        
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <?php
+            // Fetch products for the category
+            $product_query = "SELECT * FROM products WHERE category_id=" . $category['id'];
+            $product_result = $conn->query($product_query);
+
+            while ($product = $product_result->fetch_assoc()):
+            ?>
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <img src="<?php echo 'images/'. $product['product_image']; ?>" alt="<?php echo $product['product_name']; ?>" class="card-img-top" style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title"><?php echo $product['product_name']; ?></h5>
+                        <p class="card-text"><?php echo $product['product_description']; ?></p>
+                        <p class="text-muted">Price: Rp <?php echo number_format($product['product_price']); ?></p>
+                        <a href="<?php echo isset($_SESSION['user_id']) ? 'buy.php?product_id=' . $product['id'] : 'login.php'; ?>" class="btn btn-primary">Buy Now</a>
                     </div>
                 </div>
             </div>
+            <?php endwhile; ?>
         </div>
-    </div>
+    <?php endwhile; ?>
 </div>
 
 <!-- Footer -->
-<footer class="bg-dark text-light text-center py-3">
+<footer class="bg-dark text-light text-center py-4 mt-5">
     <p>&copy; 2024 Marketplace. All Rights Reserved.</p>
 </footer>
 
-<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
