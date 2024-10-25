@@ -36,12 +36,6 @@ INSERT INTO categories (category_name) VALUES
 -- Insert example products
 INSERT INTO products (category_id, product_name, product_description, product_image, product_price) VALUES
 (1, 'Bayam Segar', 'Sayur bayam segar dari petani lokal.', 'bayam.jpeg', 15000),
-<<<<<<< HEAD
-(1, 'Kangkung', 'Sayur kangkung kaya vitamin.', 'image2.jpg', 12000),
-(2, 'Apel Manis', 'Apel manis dan segar langsung dari kebun.', 'image3.jpg', 20000),
-(2, 'Jeruk Lokal', 'Jeruk segar dengan kandungan vitamin C tinggi.', 'image4.jpg', 18000),
-(3, 'Jahe Merah', 'Tanaman herbal jahe merah kaya manfaat.', 'image5.jpg', 25000);
-=======
 (1, 'Kangkung', 'Sayur kangkung kaya vitamin.', 'kangkung.jpg', 12000),
 (2, 'Apel Manis', 'Apel manis dan segar langsung dari kebun.', 'apel.jpg', 20000),
 (2, 'Jeruk Lokal', 'Jeruk segar dengan kandungan vitamin C tinggi.', 'jeruk.jpg', 18000),
@@ -53,4 +47,3 @@ INSERT INTO products (category_id, product_name, product_description, product_im
 (5, 'Gandum', 'Gandum yang kaya akan karbohidrat.', 'gandum.jpg', 17000);
 (6, 'Kelodan Prima', 'Cemilan satu ini memiliki rasa gurih dan empuk.', 'kelodan.jpeg', 15000),
 (6, 'Kue Gelong', 'Kue kering yang cocok untuk cemilan sehari-sehari.', 'kue_gelong.jpeg', 15000),
->>>>>>> 736578a8a1cf30a1023c36fb19c5f68a504f23e6
