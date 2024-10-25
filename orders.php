@@ -58,7 +58,7 @@ $order_result = $stmt->get_result();
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link active" href="#">Home</a>
+                    <a class="nav-link active" href="marketplace.php">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Categories</a>
