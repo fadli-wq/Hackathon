@@ -78,6 +78,11 @@ $order_result = $stmt->get_result();
 <div class="container my-5">
     <h1 class="text-center">Your Orders</h1>
 
+    <?php if (isset($_GET['message'])): ?>
+    <div class="alert alert-info text-center" role="alert">
+        <?php echo htmlspecialchars($_GET['message']); ?>
+    </div>
+<?php endif; ?>
     <?php if ($order_result->num_rows > 0): ?>
         <div class="row row-cols-1 row-cols-md-3 g-4">
             <?php while ($order = $order_result->fetch_assoc()): ?>
@@ -89,10 +94,14 @@ $order_result = $stmt->get_result();
                             <p class="text-muted">Quantity: <?php echo $order['quantity']; ?></p>
                             <p class="text-muted">Total Price: Rp <?php echo number_format($order['total_price'], 2, ',', '.'); ?></p>
                             <p class="text-muted">Ordered on: <?php echo date('d M Y', strtotime($order['order_date'])); ?></p>
+                            <a href="delete_order.php?id=<?php echo $order['id']; ?>" class="btn btn-danger">Delete</a>
                         </div>
                     </div>
                 </div>
             <?php endwhile; ?>
+        </div>
+        <div class="text-center my-4">
+            <a href="payment.php" class="btn btn-success btn-lg">Proceed to Payment</a>
         </div>
     <?php else: ?>
         <p class="text-center">You have no orders yet.</p>
