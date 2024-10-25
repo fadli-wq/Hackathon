@@ -1,4 +1,12 @@
 <?php
+session_start();
+if (!isset($_SESSION['user_id'])) {
+    // Redirect ke halaman login jika user_id tidak ada di sesi
+    header("Location: login.php");
+    exit();
+}
+
+$user_id = $_SESSION['user_id']; // Ambil user_id dari sesi
 // Database connection
 $host = 'localhost';
 $dbname = 'marketplace';
@@ -13,16 +21,14 @@ if ($conn->connect_error) {
 
 // Ambil data dari URL
 $product_id = $_GET['product_id'];
-
-// Simulasi user_id yang sedang login (untuk sementara, misalnya user_id 1)
-$user_id = 1; // ganti sesuai logika login Anda
-
-// Jumlah produk yang dibeli (bisa dinamis jika perlu)
-$quantity = 1;
+$quantity = $_GET['quantity'] ?? 1; // Ambil quantity dari URL, default ke 1 jika tidak ada
 
 // Fetch product details
-$product_query = "SELECT * FROM products WHERE id = $product_id";
-$product_result = $conn->query($product_query);
+$product_query = "SELECT * FROM products WHERE id = ?";
+$stmt = $conn->prepare($product_query);
+$stmt->bind_param("i", $product_id);
+$stmt->execute();
+$product_result = $stmt->get_result();
 $product = $product_result->fetch_assoc();
 
 // Hitung total harga
@@ -30,7 +36,6 @@ $total_price = $product['product_price'] * $quantity;
 
 // Simpan pesanan ke tabel orders
 $order_query = "INSERT INTO orders (product_id, user_id, quantity, total_price) VALUES (?, ?, ?, ?)";
-
 $stmt = $conn->prepare($order_query);
 $stmt->bind_param("iiid", $product_id, $user_id, $quantity, $total_price);
 
@@ -100,11 +105,11 @@ $conn->close();
                     
                     <h3><?php echo $product['product_name']; ?></h3>
                     <p class="text-muted">Quantity: <?php echo $quantity; ?></p>
-                    <p class="text-muted">Total Price: Rp <?php echo number_format($total_price); ?></p>
+                    <p class="text-muted">Total Price: Rp <?php echo number_format($total_price, 2, ',', '.'); ?></p>
 
                     <!-- Back to Home or Continue Shopping -->
                     <div class="d-grid gap-2 mt-4">
-                        <a href="index.php" class="btn btn-primary btn-lg">Continue Shopping</a>
+                        <a href="marketplace.php" class="btn btn-primary btn-lg">Continue Shopping</a>
                         <a href="orders.php" class="btn btn-outline-secondary">View Your Orders</a>
                     </div>
                 </div>

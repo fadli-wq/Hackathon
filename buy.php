@@ -1,9 +1,13 @@
 <?php
 session_start();
 if (!isset($_SESSION['user_id'])) {
+    // Redirect ke halaman login jika user_id tidak ada di sesi
     header("Location: login.php");
-    exit;
+    exit();
 }
+
+$user_id = $_SESSION['user_id']; // Ambil user_id dari sesi
+
 // Database connection
 $host = 'localhost';
 $dbname = 'marketplace';
@@ -16,7 +20,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$product_id = $_GET$product['id'];
+$product_id = $_GET['product_id'];
 
 // Fetch product details
 $product_query = "SELECT * FROM products WHERE id = $product_id";
@@ -72,10 +76,16 @@ $product = $product_result->fetch_assoc();
                     <p class="card-text">
                         <?php echo $product['product_description']; ?>
                     </p>
-                    <h4 class="text-muted">Price: Rp <?php echo number_format($product['product_price']); ?></h4>
+                    <h4 class="text-muted">Price: Rp <?php echo number_format($product['product_price'], 2, ',', '.'); ?></h4>
+
+                    <!-- Quantity Input -->
+                    <div class="mb-3">
+                        <label for="quantity" class="form-label">Quantity</label>
+                        <input type="number" id="quantity" name="quantity" class="form-control" value="1" min="1" required>
+                    </div>
 
                     <div class="d-grid gap-2">
-                        <a href="checkout.php?product_id=<?php echo $product['id']; ?>" class="btn btn-success btn-lg">Proceed to Checkout</a>
+                        <a href="checkout.php?product_id=<?php echo $product['id']; ?>&quantity=" id="checkoutLink" class="btn btn-success btn-lg">Proceed to Checkout</a>
                         <a href="marketplace.php" class="btn btn-outline-secondary">Continue Shopping</a>
                     </div>
                 </div>
@@ -91,5 +101,15 @@ $product = $product_result->fetch_assoc();
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // Update the checkout link with the selected quantity
+    document.getElementById('quantity').addEventListener('input', function() {
+        const quantity = this.value;
+        const checkoutLink = document.getElementById('checkoutLink');
+        checkoutLink.href = `checkout.php?product_id=<?php echo $product['id']; ?>&quantity=${quantity}`;
+    });
+</script>
+
 </body>
 </html>

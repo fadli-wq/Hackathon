@@ -1,6 +1,5 @@
 <?php
 session_start();
-
 $host = 'localhost';
 $dbname = 'marketplace';
 $username = 'root';
@@ -16,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'] ?? '';
     $password = $_POST['password'] ?? '';
 
-    $query = "SELECT id, password FROM users WHERE email = ?";
+    $query = "SELECT id, name , password FROM users WHERE email = ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("s", $email);
     $stmt->execute();
@@ -25,8 +24,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($user) {
         if (password_verify($password, $user['password'])) {
+            $_SESSION['user_name'] = $user['name'];
             $_SESSION['user_id'] = $user['id'];
-            header("Location: buy.php");
+            header("Location: marketplace.php");
             exit();
         } else {
             echo "Invalid password";

@@ -1,4 +1,7 @@
 <?php
+// Mulai sesi
+session_start();
+
 // Database connection
 $host = 'localhost';
 $dbname = 'marketplace';
@@ -11,13 +14,20 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Simulasi user_id yang sedang login (untuk sementara, misalnya user_id 1)
-$user_id = 1; // Ganti sesuai logika login Anda
+// Ambil user_id dari sesi
+if (!isset($_SESSION['user_id'])) {
+    // Redirect ke halaman login jika user_id tidak ada di sesi
+    header("Location: login.php"); // Ganti dengan halaman login Anda
+    exit();
+}
+
+$user_id = $_SESSION['user_id']; // Ambil user_id dari sesi
 
 // Fetch orders for the user
-$order_query = "SELECT orders.*, products.product_name, products.product_image
+$order_query = "SELECT orders.*, products.product_name, products.product_image, users.name AS user_name
                 FROM orders
                 JOIN products ON orders.product_id = products.id
+                JOIN users ON orders.user_id = users.id
                 WHERE orders.user_id = ?";
 $stmt = $conn->prepare($order_query);
 $stmt->bind_param("i", $user_id);
@@ -77,7 +87,7 @@ $order_result = $stmt->get_result();
                         <div class="card-body">
                             <h5 class="card-title"><?php echo $order['product_name']; ?></h5>
                             <p class="text-muted">Quantity: <?php echo $order['quantity']; ?></p>
-                            <p class="text-muted">Total Price: Rp <?php echo number_format($order['total_price']); ?></p>
+                            <p class="text-muted">Total Price: Rp <?php echo number_format($order['total_price'], 2, ',', '.'); ?></p>
                             <p class="text-muted">Ordered on: <?php echo date('d M Y', strtotime($order['order_date'])); ?></p>
                         </div>
                     </div>

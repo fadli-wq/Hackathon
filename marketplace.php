@@ -1,4 +1,5 @@
 <?php
+session_start();
 // Database connection
 $host = 'localhost';
 $dbname = 'marketplace';
@@ -48,13 +49,29 @@ $category_result = $conn->query($category_query);
                 <li class="nav-item">
                     <a class="nav-link" href="#">Contact</a>
                 </li>
-                <li class="nav-item">
-              <button class="btn btn-success"><a href="login.php" class="text-decoration-none">Login</a></button>
-            </li>
+
+                <?php if (isset($_SESSION['user_id'])): ?>
+                    <!-- Option 1: Dropdown Profile -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Welcome, <?= $_SESSION['user_name'] ?>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="logout.php">Logout</a></li>
+                        </ul>
+                    </li>
+                <?php else: ?>
+                    <li class="nav-item">
+                        <a href="login.php" class="btn btn-success">Login</a>
+                    </li>
+                <?php endif; ?>
             </ul>
         </div>
     </div>
 </nav>
+
 
 <!-- Main Content -->
 <div class="container my-5">
@@ -79,7 +96,7 @@ $category_result = $conn->query($category_query);
                         <h5 class="card-title"><?php echo $product['product_name']; ?></h5>
                         <p class="card-text"><?php echo $product['product_description']; ?></p>
                         <p class="text-muted">Price: Rp <?php echo number_format($product['product_price']); ?></p>
-                        <a href="<?php echo isset($_SESSION['user_id']) ? 'buy.php?product_id=' . $product['id'] : 'login.php'; ?>" class="btn btn-primary">Buy Now</a>
+                        <a href="<?php echo isset($_SESSION['user_name']) ? 'buy.php?product_id=' . $product['id'] : 'login.php'; ?>" class="btn btn-primary">Buy Now</a>
                     </div>
                 </div>
             </div>
